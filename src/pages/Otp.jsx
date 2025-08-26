@@ -7,7 +7,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Otp = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useContext(AppContext);
+  const { user , verifyOtp } = useContext(AppContext);
 
   // Get email from location.state or localStorage
   const [email, setEmail] = useState(
@@ -62,13 +62,9 @@ const Otp = () => {
         return;
       }
 
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/verify-otp`,
-        { email, otp: otpCode },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-
-      setMessage(`✅ ${data.message || 'OTP Verified Successfully'}`);
+      const response = await verifyOtp(email, otpCode);
+      setMessage(`✅ ${response.message || 'OTP Verified Successfully'}`);
+      
       localStorage.removeItem('otpEmail'); // Clean up email
 
       // Redirect to profile after success

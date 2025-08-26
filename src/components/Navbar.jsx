@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   ShoppingCart,
@@ -9,11 +9,11 @@ import {
   ChefHat,
   Bell,
   Heart,
-  MapPin
-} from 'lucide-react';
-import GlassCard from './GlassCard';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../Context/AppContext';
+  MapPin,
+} from "lucide-react";
+import GlassCard from "./GlassCard";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../Context/AppContext";
 
 const Navbar = () => {
   const { user, logout } = useContext(AppContext);
@@ -36,7 +36,7 @@ const Navbar = () => {
 
   useEffect(() => {
     let ticking = false;
-    console.log(user)
+    console.log(user);
     const throttledScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
@@ -47,29 +47,29 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', throttledScroll);
-    return () => window.removeEventListener('scroll', throttledScroll);
+    window.addEventListener("scroll", throttledScroll);
+    return () => window.removeEventListener("scroll", throttledScroll);
   }, [handleScroll]);
 
   // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.mobile-menu-container')) {
+      if (isMobileMenuOpen && !event.target.closest(".mobile-menu-container")) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, [isMobileMenuOpen]);
 
   // Navigation items
   const navItems = [
-    { label: 'Home', href: '#home', active: true },
-    { label: 'Restaurants', href: '#restaurants' },
-    { label: 'Offers', href: '#offers', badge: 'New' },
-    { label: 'Track Order', href: '#track' },
-    { label: 'About', href: '#about' }
+    { label: "Home", onClick: () => navigate("/") },
+    { label: "Restaurants", onClick: () => navigate("/restaurants") },
+    { label: "Offers", onClick: () => navigate("/offers"), badge: "New" },
+    { label: "Track Order", onClick: () => navigate("/track") },
+    { label: "Profile", onClick: () => navigate("/profile") },
   ];
 
   // Animation variants
@@ -77,18 +77,18 @@ const Navbar = () => {
     closed: {
       opacity: 0,
       height: 0,
-      transition: { duration: 0.3, ease: 'easeInOut' }
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
     open: {
       opacity: 1,
-      height: 'auto',
-      transition: { duration: 0.3, ease: 'easeInOut' }
-    }
+      height: "auto",
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
   };
 
   const searchVariants = {
     closed: { width: 0, opacity: 0 },
-    open: { width: '300px', opacity: 1 }
+    open: { width: "300px", opacity: 1 },
   };
 
   return (
@@ -96,15 +96,19 @@ const Navbar = () => {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-2' : 'py-4'
-          }`}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled ? "py-2" : "py-4"
+        }`}
       >
         <div className="mx-auto max-w-7xl px-4">
           <GlassCard
-            className={`px-6 py-4 transition-all duration-500 ${isScrolled ? 'bg-white/25 backdrop-blur-3xl shadow-3xl' : 'bg-white/10'
-              }`}
-            variant={isScrolled ? 'elevated' : 'default'}
+            className={`px-6 py-4 transition-all duration-500 ${
+              isScrolled
+                ? "bg-white/25 backdrop-blur-3xl shadow-3xl"
+                : "bg-white/10"
+            }`}
+            variant={isScrolled ? "elevated" : "default"}
             hover={false}
           >
             <div className="flex justify-between items-center">
@@ -136,10 +140,12 @@ const Navbar = () => {
                     className="relative"
                   >
                     <button
-                      className={`font-medium transition-all duration-300 hover:scale-105 relative ${item.active
-                          ? 'text-red-600'
-                          : 'text-gray-800 hover:text-red-600'
-                        }`}
+                      onClick={item.onClick}
+                      className={`font-medium transition-all duration-300 hover:scale-105 relative ${
+                        item.active
+                          ? "text-red-600"
+                          : "text-gray-800 hover:text-red-600"
+                      }`}
                     >
                       {item.label}
                       {item.badge && (
@@ -175,10 +181,14 @@ const Navbar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="hidden md:flex items-center gap-2 px-3 py-2 rounded-2xl hover:bg-white/20 transition-all duration-300"
-                  onClick={() => {navigate('/address')}}
+                  onClick={() => {
+                    navigate("/address");
+                  }}
                 >
                   <MapPin className="h-4 w-4 text-red-500" />
-                  <span className="text-sm font-medium text-gray-800">Delhi</span>
+                  <span className="text-sm font-medium text-gray-800">
+                    Delhi
+                  </span>
                 </motion.button>
 
                 {/* Notifications */}
@@ -213,7 +223,7 @@ const Navbar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="relative p-3 rounded-2xl hover:bg-white/20 transition-all duration-300"
-                  onClick={() => navigate('/cart')}
+                  onClick={() => navigate("/cart")}
                 >
                   <ShoppingCart className="h-5 w-5 text-gray-800" />
                   {user && cartCount > 0 && (
@@ -235,28 +245,34 @@ const Navbar = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="hidden md:block px-6 py-2 text-gray-800 hover:text-red-600 font-medium transition-all duration-300"
-                      onClick={() => navigate('/login')}
+                      onClick={() => navigate("/login")}
                     >
                       Login
                     </motion.button>
 
                     <motion.button
-                      whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                      }}
                       whileTap={{ scale: 0.95 }}
                       className="px-6 py-3 rounded-2xl bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white font-bold shadow-lg transition-all duration-300"
-                      onClick={() => navigate('/register')}
+                      onClick={() => navigate("/register")}
                     >
                       Sign Up
                     </motion.button>
                   </>
                 ) : (
                   <motion.button
-                    whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+                    }}
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 rounded-2xl bg-red-500 text-white font-bold shadow-lg transition-all duration-300"
                     onClick={async () => {
                       await logout();
-                      navigate('/login'); // redirect after logout
+                      navigate("/login"); // redirect after logout
                     }}
                   >
                     Logout
@@ -272,16 +288,17 @@ const Navbar = () => {
                 >
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={isMobileMenuOpen ? 'close' : 'menu'}
+                      key={isMobileMenuOpen ? "close" : "menu"}
                       initial={{ rotate: -90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
                       exit={{ rotate: 90, opacity: 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      {isMobileMenuOpen ?
-                        <X className="h-6 w-6" /> :
+                      {isMobileMenuOpen ? (
+                        <X className="h-6 w-6" />
+                      ) : (
                         <MenuIcon className="h-6 w-6" />
-                      }
+                      )}
                     </motion.div>
                   </AnimatePresence>
                 </motion.button>
@@ -305,8 +322,11 @@ const Navbar = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`flex items-center justify-between w-full text-left py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/10 ${item.active ? 'text-red-600 bg-white/5' : 'text-gray-800 hover:text-red-600'
-                          }`}
+                        className={`flex items-center justify-between w-full text-left py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/10 ${
+                          item.active
+                            ? "text-red-600 bg-white/5"
+                            : "text-gray-800 hover:text-red-600"
+                        }`}
                       >
                         <span>{item.label}</span>
                         {item.badge && (
@@ -328,7 +348,7 @@ const Navbar = () => {
                         Change Location
                       </button>
                       <button className="flex items-center gap-3 w-full py-3 px-4 text-gray-800 hover:text-red-600 hover:bg-white/10 rounded-xl transition-all duration-300">
-                        <User  className="h-5 w-5" />
+                        <User className="h-5 w-5" />
                         My Account
                       </button>
                     </div>

@@ -1,15 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { MapPin, Phone, Home, Building2, Mail, Check, ArrowLeft } from 'lucide-react';
+import { AppContext } from '../Context/AppContext';
 
 // Mock AppContext - replace with your actual context import
-const AppContext = React.createContext({
-  user: { name: 'John Doe' },
-  saveAddress: async (data) => {
-    console.log('Saving address:', data);
-    return new Promise(resolve => setTimeout(resolve, 1000));
-  },
-  loading: false
-});
 
 const Address = () => {
   const { user, saveAddress, loading } = useContext(AppContext);
