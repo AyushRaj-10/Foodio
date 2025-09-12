@@ -154,7 +154,6 @@ export const checkAuth = async (req, res) => {
 // user info
 export const getMe = async (req, res) => {
   try {
-    // req.user is set by authMiddleware
     res.status(200).json({
       success: true,
       user: req.user,

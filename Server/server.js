@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 
 import userRouter from './routes/user.js';
 import addressRouter from './routes/address.js';
+import foodRouter from './routes/food.js'
+import cartRouter from './routes/cart.js'
 import { dbConnection } from './utils/dbConnection.js';
 
 dotenv.config();
@@ -14,14 +16,23 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
-  credentials: true, 
+  origin: (origin, callback) => {
+    const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 app.use(cookieParser());
 
 // Routes
 app.use('/api', userRouter);
 app.use('/api', addressRouter);
+app.use('/api',foodRouter)
+app.use('/api',cartRouter)
 
 dbConnection();
 
